@@ -1,10 +1,19 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import Form from "./Components/Form.js";
+import List from "./Components/List.js";
 
 function App() {
-  const [activities, setActivities] = useState([]);
+
+  const initialActivities = JSON.parse(localStorage.getItem("activities")) || [];
+  const [activities, setActivities] = useState(initialActivities);
+
+  useEffect(() => {
+    localStorage.setItem("activities", JSON.stringify(activities));
+  }, [activities]);
+
+
 
   const handleAddActivity = (newActivity) => {
     setActivities((prevActivities) => [...prevActivities, newActivity]);
@@ -14,14 +23,7 @@ function App() {
     <>
       <div className="App">
         <Form onAddActivity={handleAddActivity} />
-        <ul>
-          {activities.map((activity) => (
-            <li key={activity.id}>
-              {activity.name} -{" "}
-              {activity.isForGoodWeather ? "Good Weather" : "Bad Weather"}
-            </li>
-          ))}
-        </ul>
+     <List activities= {activities}/>
       </div>
     </>
   );
