@@ -1,11 +1,5 @@
 import React, { useState } from "react";
 
-//export default function Form({ onAddActivity }) => {
-//  const[activity, setActivity] = useState({
-//    name: "activity",
-//  isForGoodWeather:true,
-//});
-
 const Form = ({ onAddActivity }) => {
   const [activity, setActivity] = useState("");
   const [isForGoodWeather, setIsForGoodWeather] = useState(true);
@@ -30,24 +24,11 @@ const Form = ({ onAddActivity }) => {
     return "_" + Math.random().toString(36).substr(2, 9);
   };
 
-  // return (
-  //     <form onSubmit={handleSubmit}>
-  //       <h1>Add new Activity:</h1>
-  //       <label htmlFor="activityName">Name:</label>
-  //       <input name="activityName" id="activityName">
-  //         Name of Activity
-  //       </input>
-  //       <label htmlFor="checkbox">Good-weather activity:</label>
-  //       <input type="checkbox" name="checkbox" id="checkbox"></input>
-  //       <input type="submit" value="Submit" />
-  //     </form>
-
-  // );
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Add Activity</h2>
+      <h2>Add Activity:</h2>
       <label>
-        Activity Name:
+        Name:
         <input
           type="text"
           id="activityName"
@@ -57,14 +38,14 @@ const Form = ({ onAddActivity }) => {
         />
       </label>
       <label>
-        Is it for good weather?
+        Good-weather activity:
         <input
           type="checkbox"
           checked={isForGoodWeather}
           onChange={() => setIsForGoodWeather(!isForGoodWeather)}
         />
       </label>
-      <button type="submit">Add Activity</button>
+      <button type="submit">Submit</button>
     </form>
   );
 };
