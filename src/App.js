@@ -1,19 +1,18 @@
-import React, { useState , useEffect} from "react";
-import logo from "./logo.svg";
+import React from "react";
 import "./App.css";
 import Form from "./Components/Form.js";
 import List from "./Components/List.js";
+import useLocalStorageState from "use-local-storage-state";
+
+const initialActivities = [
+  { id: 3847, name: "Reading inside", isForGoodWeather: false },
+  { id: 2648, name: "Go for a walk", isForGoodWeather: true },
+];
 
 function App() {
-
-  const initialActivities = JSON.parse(localStorage.getItem("activities")) || [];
-  const [activities, setActivities] = useState(initialActivities);
-
-  useEffect(() => {
-    localStorage.setItem("activities", JSON.stringify(activities));
-  }, [activities]);
-
-
+  const [activities, setActivities] = useLocalStorageState("activities", {
+    defaultValue: initialActivities,
+  });
 
   const handleAddActivity = (newActivity) => {
     setActivities((prevActivities) => [...prevActivities, newActivity]);
@@ -23,7 +22,7 @@ function App() {
     <>
       <div className="App">
         <Form onAddActivity={handleAddActivity} />
-     <List activities= {activities}/>
+        <List activities={activities} />
       </div>
     </>
   );
