@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import Form from "./Components/Form.js";
 import List from "./Components/List.js";
@@ -14,9 +14,22 @@ function App() {
     defaultValue: initialActivities,
   });
 
-  const isGoodWeather = false;
+  const [weather, setWeather] = useState({});
+
+  useEffect(() => {
+    async function startFetching() {
+      const response = await fetch(
+        "https://example-apis.vercel.app/api/weather"
+      );
+      const weather = await response.json();
+
+      setWeather(weather);
+    }
+    startFetching();
+  }, []);
+
   const filteredActivities = activities.filter((activity) => {
-    return activity.isForGoodWeather === isGoodWeather;
+    return activity.isForGoodWeather === weather.isGoodWeather;
   });
 
   const handleAddActivity = (newActivity) => {
@@ -26,8 +39,14 @@ function App() {
   return (
     <>
       <div className="App">
+        <h1>
+          {weather.condition} {weather.temperature} °C
+        </h1>
+        <List
+          activities={filteredActivities}
+          isGoodWeather={weather.isGoodWeather}
+        />
         <Form onAddActivity={handleAddActivity} />
-        <List activities={filteredActivities} isGoodWeather={isGoodWeather} />
       </div>
     </>
   );
